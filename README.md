@@ -15,59 +15,70 @@ The application leverages RAG to provide contextually relevant answers by first 
 
 ### Architecture Diagram
 
-This diagram provides a more professional and detailed view of the application's components and data flow:
+This diagram provides a more detailed breakdown of the application's processes and data flow:
 
 ```mermaid
 graph TD
     A[User] --> B(Streamlit UI);
 
-    subgraph Application Core
+    subgraph Query Processing
         B --> C{User Query};
-        C --> D[Query Embedding];
-        D --> E(FAISS Search);
-        E --> F[Retrieve Documents];
-        F --> G[Augment Prompt];
-        G --> H(Generation Model);
-        H --> I[Generated Response];
+        C --> D[Clean & Normalize Query];
+        D --> E[Generate Query Embedding];
     end
 
     subgraph Data & Models
-        J[Provider Texts] --> K(Embedding Model);
-        L[Booking Data] --> M(App Logic);
-        N[Other Data] --> M;
-        K --> E;
-        M --> B;
-        I --> B;
+        F[Provider Texts] --> G(Embedding Model);
+        G --> H[Vector Index];
+        I[Booking Data] --> J(App Logic);
+        K[Other Data] --> J;
     end
 
-    B --> O[Final Output];
+    subgraph Retrieval & RAG
+        E --> L(FAISS Vector Search);
+        L --> M[Retrieve Relevant Document IDs];
+        M --> N[Fetch Document Content];
+        N --> O{Augment Prompt};
+        O --> P[Generation Model];
+        P --> Q[Generate Response];
+    end
+
+    J --> B; %% App Logic interacts with UI/data
+    Q --> B; %% Response from Generation Model goes to UI
+    B --> R[Final Output];
 
     %% Styling
     classDef ui fill:#cce5ff,stroke:#004085,stroke-width:2px;
     classDef process fill:#d4edda,stroke:#155724,stroke-width:2px;
     classDef data fill:#fff3cd,stroke:#856404,stroke-width:2px;
     classDef model fill:#e2e3e5,stroke:#383d41,stroke-width:2px;
+    classDef index fill:#f8d7da,stroke:#721c24,stroke-width:2px;
 
     class B ui;
-    class C,D,E,F,G,H,I,M process;
-    class A,J,L,N,O data;
-    class K model;
+    class C,D,E,F,G,I,J,L,M,N,O,P,Q process;
+    class A,F,I,K,R data;
+    class G,P model;
+    class H index; %% FAISS Vector Index
 ```
 
 **Explanation of Components:**
 - **User:** The end-user interacting with the application.
 - **Streamlit UI (`app.py`):** The user interface built with Streamlit, handling user input and displaying output.
 - **User Query:** The input text provided by the user for bus ticket assistance.
-- **Query Embedding:** The user's query is converted into a numerical vector representation using an embedding model (`sentence-transformers`).
-- **FAISS Search:** A fast similarity search is performed on a vector index (built from provider texts) using FAISS to find the most relevant documents.
-- **Retrieve Documents:** The actual text content of the documents identified by FAISS is fetched.
-- **Augment Prompt:** The retrieved document content is combined with the original user query to create a richer prompt for the language model.
-- **Generation Model (e.g., `flan-t5-small`):** A language model that takes the augmented prompt and generates a coherent, contextually relevant response.
+- **Clean & Normalize Query:** Preprocesses the user's query for better processing.
+- **Generate Query Embedding:** Converts the cleaned user query into a numerical vector representation using an embedding model (`sentence-transformers`).
 - **Provider Texts (`data/provider_texts/`):** Raw text data containing information about bus providers, used to build the embedding index.
+- **Embedding Model (`sentence-transformers`):** The model responsible for converting text into numerical embeddings.
+- **Vector Index (FAISS):** The FAISS index stores the embeddings of the provider texts for efficient similarity search.
 - **Booking Data (`data/bookings.db`):** A SQLite database storing all booking-related information.
 - **Other Data (`data/data.json`):** Additional data files that may be used by the application logic.
-- **Embedding Model (`sentence-transformers`):** The model responsible for converting text into numerical embeddings.
 - **App Logic:** Orchestrates the entire process, managing data flow, interacting with the database, and coordinating the RAG pipeline.
+- **FAISS Vector Search:** Performs a fast similarity search on the vector index to find documents semantically similar to the query embedding.
+- **Retrieve Relevant Document IDs:** Identifies the IDs of the most relevant documents from the FAISS search.
+- **Fetch Document Content:** Retrieves the actual text content of the documents corresponding to the identified IDs.
+- **Augment Prompt:** Combines the retrieved document content with the original user query to create a richer prompt for the language model.
+- **Generation Model (e.g., `flan-t5-small`):** A language model that takes the augmented prompt and generates a coherent, contextually relevant response.
+- **Generate Response:** The final natural language response generated by the model.
 - **Final Output:** The generated response presented to the user through the Streamlit UI.
 
 ## Quick Start Guide for New Users
