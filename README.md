@@ -19,38 +19,37 @@ The application leverages RAG to provide contextually relevant answers by first 
 
 This diagram provides a more detailed view of the application's components and data flow:
 
-```mermaid
 graph TD
     %% ==== USER INTERFACE ====
-    A[User] --> B[Streamlit UI (app.py)];
+    A[User] --> B["Streamlit UI - app.py"];
     B --> C{User Query};
 
     %% ==== CORE APPLICATION LOGIC ====
-    subgraph Core_Logic[Core Application Logic]
-        C --> D[Query Embedding Generation];
-        D --> E[FAISS Vector Search];
-        E --> F[Retrieve Relevant Documents];
-        F --> G[Prompt Augmentation];
-        G --> H[Response Generation (flan-t5-small)];
-        H --> I[Generated Response];
+    subgraph Core_Logic["Core Application Logic"]
+        C --> D["Query Embedding Generation"];
+        D --> E["FAISS Vector Search"];
+        E --> F["Retrieve Relevant Documents"];
+        F --> G["Prompt Augmentation"];
+        G --> H["Response Generation - flan-t5-small"];
+        H --> I["Generated Response"];
         I --> B;
     end
 
     %% ==== DATA SOURCES ====
-    subgraph Data_Sources[Data Sources]
-        J[Provider Texts (data/provider_texts/)];
-        L[Booking Data (data/bookings.db)];
-        N[Other Data (data/data.json)];
+    subgraph Data_Sources["Data Sources"]
+        J["Provider Texts - data/provider_texts/"];
+        L["Booking Data - data/bookings.db"];
+        N["Other Data - data/data.json"];
 
-        J --> K[Embedding Model (sentence-transformers)];
+        J --> K["Embedding Model - sentence-transformers"];
         K --> E;
-        L --> M[Application Logic];
+        L --> M["Application Logic"];
         N --> M;
         M --> B;
     end
 
     %% ==== FINAL OUTPUT ====
-    B --> O[Final Output to User];
+    B --> O["Final Output to User"];
 
     %% ==== STYLING ====
     classDef ui fill:#ffe6cc,stroke:#333,stroke-width:1.5px;
@@ -64,8 +63,6 @@ graph TD
     class J,L,N data;
     class K model;
     class O output;
-
-```
 
 **Explanation of Components:**
 - **User:** Interacts with the application.
