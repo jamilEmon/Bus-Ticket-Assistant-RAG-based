@@ -1,3 +1,4 @@
+DEMO VIDEO : https://drive.google.com/file/d/1sxJhhBbn6B_xzk3toaec1bktcgreH2at/view?usp=drive_link
 # Bus Ticket Assistant — Offline RAG Streamlit App
 
 This is a minimal **offline RAG** Streamlit app for a Bus Ticket Assistant.
@@ -16,7 +17,8 @@ The application leverages RAG to provide contextually relevant answers by first 
 ### Architecture Diagram
 
 This diagram provides a more detailed breakdown of the application's processes and data flow:
-https://www.mermaidchart.com/d/4ea35d96-cabd-46e4-9fc5-f444d6677dcb
+<img width="2328" height="2778" alt="image" src="https://github.com/user-attachments/assets/4f752249-b495-496d-8b35-05a41c207b46" />
+
 
 **Explanation of Components:**
 - **User:** The end-user interacting with the application.
