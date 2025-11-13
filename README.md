@@ -21,37 +21,50 @@ This diagram provides a more detailed view of the application's components and d
 
 ```mermaid
 graph TD
-    A[User] --> B(Streamlit UI - app.py);
+    %% ==== USER INTERFACE ====
+    A[User] --> B[Streamlit UI (app.py)];
+    B --> C{User Query};
 
-    subgraph Core Application Logic
-        B --> C{User Query};
+    %% ==== CORE APPLICATION LOGIC ====
+    subgraph Core_Logic[Core Application Logic]
         C --> D[Query Embedding Generation];
         D --> E[FAISS Vector Search];
         E --> F[Retrieve Relevant Documents];
-        F --> G[Augment Prompt];
-        G --> H[Generation Model (flan-t5-small)];
+        F --> G[Prompt Augmentation];
+        G --> H[Response Generation (flan-t5-small)];
         H --> I[Generated Response];
+        I --> B;
     end
 
-    subgraph Data Sources
-        J[Provider Texts - data/provider_texts/] --> K(Embedding Model - sentence-transformers);
-        L[Booking Data - data/bookings.db] --> M(App Logic);
-        N[Other Data - data/data.json] --> M;
+    %% ==== DATA SOURCES ====
+    subgraph Data_Sources[Data Sources]
+        J[Provider Texts (data/provider_texts/)];
+        L[Booking Data (data/bookings.db)];
+        N[Other Data (data/data.json)];
+
+        J --> K[Embedding Model (sentence-transformers)];
+        K --> E;
+        L --> M[Application Logic];
+        N --> M;
+        M --> B;
     end
 
-    K --> E;
-    M --> B;
-    I --> B;
+    %% ==== FINAL OUTPUT ====
     B --> O[Final Output to User];
 
-    %% Styling (optional, but can help clarity)
-    classDef data fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef model fill:#ccf,stroke:#333,stroke-width:2px;
-    classDef process fill:#cfc,stroke:#333,stroke-width:2px;
+    %% ==== STYLING ====
+    classDef ui fill:#ffe6cc,stroke:#333,stroke-width:1.5px;
+    classDef logic fill:#c6f7d0,stroke:#333,stroke-width:1.5px;
+    classDef data fill:#f9f,stroke:#333,stroke-width:1.5px;
+    classDef model fill:#ccf,stroke:#333,stroke-width:1.5px;
+    classDef output fill:#ffd6d6,stroke:#333,stroke-width:1.5px;
 
-    class A,O data;
-    class B,C,E,G,H,I,J,L,N process;
-    class D,K model;
+    class A,B,C,O ui;
+    class D,E,F,G,H,I,M logic;
+    class J,L,N data;
+    class K model;
+    class O output;
+
 ```
 
 **Explanation of Components:**
