@@ -16,57 +16,7 @@ The application leverages RAG to provide contextually relevant answers by first 
 ### Architecture Diagram
 
 This diagram provides a more detailed breakdown of the application's processes and data flow:
-graph TD
-    %% ==== USER INTERFACE ====
-    A[User] --> B["Streamlit UI"];
-
-    %% ==== QUERY PROCESSING ====
-    subgraph Query_Processing["Query Processing"]
-        B --> C{"User Query"};
-        C --> D["Clean & Normalize Query"];
-        D --> E["Generate Query Embedding"];
-    end
-
-    %% ==== DATA & MODELS ====
-    subgraph Data_Models["Data & Models"]
-        F["Provider Texts"] --> G["Embedding Model"];
-        G --> H["Vector Index (FAISS)"];
-        I["Booking Data"] --> J["App Logic"];
-        K["Other Data"] --> J;
-    end
-
-    %% ==== RETRIEVAL & RAG ====
-    subgraph Retrieval_RAG["Retrieval & RAG"]
-        E --> L["FAISS Vector Search"];
-        L --> M["Retrieve Relevant Document IDs"];
-        M --> N["Fetch Document Content"];
-        N --> O["Augment Prompt"];
-        O --> P["Generation Model (flan-t5-small)"];
-        P --> Q["Generate Response"];
-    end
-
-    %% ==== CONNECTIONS (blank line added after subgraphs) ====
-
-    J --> B; %% App Logic interacts with UI/data
-    Q --> B; %% Response from Generation Model goes to UI
-    B --> R["Final Output to User"];
-
-    %% ==== STYLING ====
-    classDef ui fill:#cce5ff,stroke:#004085,stroke-width:1.5px;
-    classDef process fill:#d4edda,stroke:#155724,stroke-width:1.5px;
-    classDef data fill:#fff3cd,stroke:#856404,stroke-width:1.5px;
-    classDef model fill:#e2e3e5,stroke:#383d41,stroke-width:1.5px;
-    classDef index fill:#f8d7da,stroke:#721c24,stroke-width:1.5px;
-    classDef output fill:#f5c6cb,stroke:#721c24,stroke-width:1.5px;
-
-    %% ==== CLASS ASSIGNMENTS ====
-    class A,B,R ui;
-    class C,D,E,L,M,N,O,Q process;
-    class F,I,K,J data;
-    class G,P model;
-    class H index;
-    class R output;
-
+https://www.mermaidchart.com/d/4ea35d96-cabd-46e4-9fc5-f444d6677dcb
 
 **Explanation of Components:**
 - **User:** The end-user interacting with the application.
