@@ -1,0 +1,91 @@
+{
+  "districts": [
+    {
+      "name": "Dhaka",
+      "dropping_points": [
+        "Gabtoli",
+        "Sayedabad",
+        "Matuail"
+      ]
+    },
+    {
+      "name": "Rajshahi",
+      "dropping_points": [
+        "Railway Station",
+        "Airport"
+      ]
+    },
+    {
+      "name": "Chittagong",
+      "dropping_points": [
+        "GEC",
+        "Bahaddarhat"
+      ]
+    },
+    {
+      "name": "Sylhet",
+      "dropping_points": [
+        "Court",
+        "Airport"
+      ]
+    }
+  ],
+  "providers": [
+    {
+      "name": "Hanif",
+      "contact": "0123456789",
+      "privacy_file": "hanif.txt",
+      "routes": [
+        {
+          "origin": "Dhaka",
+          "destination": "Rajshahi",
+          "fare": 450,
+          "departure": "08:00"
+        },
+        {
+          "origin": "Dhaka",
+          "destination": "Barishal",
+          "fare": 520,
+          "departure": "09:30"
+        }
+      ]
+    },
+    {
+      "name": "Green Line",
+      "contact": "0987654321",
+      "privacy_file": "green line.txt",
+      "routes": [
+        {
+          "origin": "Chittagong",
+          "destination": "Sylhet",
+          "fare": 700,
+          "departure": "07:00"
+        }
+      ]
+    },
+    {
+      "name": "Desh Travel",
+      "contact": "0111111111",
+      "privacy_file": "desh travel.txt",
+      "routes": []
+    },
+    {
+      "name": "Ena",
+      "contact": "0222222222",
+      "privacy_file": "ena.txt",
+      "routes": []
+    },
+    {
+      "name": "Shyamoli",
+      "contact": "0333333333",
+      "privacy_file": "shyamoli.txt",
+      "routes": []
+    },
+    {
+      "name": "Soudia",
+      "contact": "0444444444",
+      "privacy_file": "soudia.txt",
+      "routes": []
+    }
+  ]
+}
