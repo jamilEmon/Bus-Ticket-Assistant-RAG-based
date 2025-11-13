@@ -29,7 +29,7 @@ graph TD
         D --> E[FAISS Vector Search];
         E --> F[Retrieve Relevant Documents];
         F --> G[Augment Prompt];
-        G --> H[Generation Model (e.g., flan-t5-small)];
+        G --> H[Generation Model (flan-t5-small)];
         H --> I[Generated Response];
     end
 
@@ -62,7 +62,7 @@ graph TD
 - **FAISS Vector Search:** Efficiently searches a vector index (created from provider texts) to find documents semantically similar to the query embedding.
 - **Retrieve Relevant Documents:** Fetches the actual text content of the documents identified by FAISS.
 - **Augment Prompt:** Combines the user's original query with the retrieved document content to create a more informed prompt for the generation model.
-- **Generation Model (e.g., `flan-t5-small`):** Takes the augmented prompt and generates a natural language response.
+- **Generation Model (flan-t5-small):** Takes the augmented prompt and generates a natural language response.
 - **Data Sources:**
     - **Provider Texts (`data/provider_texts/`):** Raw text data used to build the embedding index.
     - **Booking Data (`data/bookings.db`):** SQLite database storing booking information.
