@@ -1,5 +1,3 @@
-Demo video : https://drive.google.com/file/d/1sxJhhBbn6B_xzk3toaec1bktcgreH2at/view?usp=drive_link
-
 # Bus Ticket Assistant — Offline RAG Streamlit App
 
 This is a minimal **offline RAG** Streamlit app for a Bus Ticket Assistant.
@@ -17,69 +15,60 @@ The application leverages RAG to provide contextually relevant answers by first 
 
 ### Architecture Diagram
 
-This diagram provides a more detailed view of the application's components and data flow:
+This diagram provides a more professional and detailed view of the application's components and data flow:
 
+```mermaid
 graph TD
-    %% ==== USER INTERFACE ====
-    A[User] --> B["Streamlit UI - app.py"];
-    B --> C{User Query};
+    A[User] --> B(Streamlit UI);
 
-    %% ==== CORE APPLICATION LOGIC ====
-    subgraph Core_Logic["Core Application Logic"]
-        C --> D["Query Embedding Generation"];
-        D --> E["FAISS Vector Search"];
-        E --> F["Retrieve Relevant Documents"];
-        F --> G["Prompt Augmentation"];
-        G --> H["Response Generation - flan-t5-small"];
-        H --> I["Generated Response"];
+    subgraph Application Core
+        B --> C{User Query};
+        C --> D[Query Embedding];
+        D --> E(FAISS Search);
+        E --> F[Retrieve Documents];
+        F --> G[Augment Prompt];
+        G --> H(Generation Model);
+        H --> I[Generated Response];
+    end
+
+    subgraph Data & Models
+        J[Provider Texts] --> K(Embedding Model);
+        L[Booking Data] --> M(App Logic);
+        N[Other Data] --> M;
+        K --> E;
+        M --> B;
         I --> B;
     end
 
-    %% ==== DATA SOURCES ====
-    subgraph Data_Sources["Data Sources"]
-        J["Provider Texts - data/provider_texts/"];
-        L["Booking Data - data/bookings.db"];
-        N["Other Data - data/data.json"];
+    B --> O[Final Output];
 
-        J --> K["Embedding Model - sentence-transformers"];
-        K --> E;
-        L --> M["Application Logic"];
-        N --> M;
-        M --> B;
-    end
+    %% Styling
+    classDef ui fill:#cce5ff,stroke:#004085,stroke-width:2px;
+    classDef process fill:#d4edda,stroke:#155724,stroke-width:2px;
+    classDef data fill:#fff3cd,stroke:#856404,stroke-width:2px;
+    classDef model fill:#e2e3e5,stroke:#383d41,stroke-width:2px;
 
-    %% ==== FINAL OUTPUT ====
-    B --> O["Final Output to User"];
-
-    %% ==== STYLING ====
-    classDef ui fill:#ffe6cc,stroke:#333,stroke-width:1.5px;
-    classDef logic fill:#c6f7d0,stroke:#333,stroke-width:1.5px;
-    classDef data fill:#f9f,stroke:#333,stroke-width:1.5px;
-    classDef model fill:#ccf,stroke:#333,stroke-width:1.5px;
-    classDef output fill:#ffd6d6,stroke:#333,stroke-width:1.5px;
-
-    class A,B,C,O ui;
-    class D,E,F,G,H,I,M logic;
-    class J,L,N data;
+    class B ui;
+    class C,D,E,F,G,H,I,M process;
+    class A,J,L,N,O data;
     class K model;
-    class O output;
+```
 
 **Explanation of Components:**
-- **User:** Interacts with the application.
-- **Streamlit UI (`app.py`):** Provides the web interface for user interaction.
-- **User Query:** The input provided by the user.
-- **Query Embedding Generation:** Converts the user's query into a numerical vector using `sentence-transformers`.
-- **FAISS Vector Search:** Efficiently searches a vector index (created from provider texts) to find documents semantically similar to the query embedding.
-- **Retrieve Relevant Documents:** Fetches the actual text content of the documents identified by FAISS.
-- **Augment Prompt:** Combines the user's original query with the retrieved document content to create a more informed prompt for the generation model.
-- **Generation Model (flan-t5-small):** Takes the augmented prompt and generates a natural language response.
-- **Data Sources:**
-    - **Provider Texts (`data/provider_texts/`):** Raw text data used to build the embedding index.
-    - **Booking Data (`data/bookings.db`):** SQLite database storing booking information.
-    - **Other Data (`data/data.json`):** Additional data that might be used by the application logic.
-- **Embedding Model (`sentence-transformers`):** Used for creating vector representations of text.
-- **App Logic:** Manages data retrieval, interaction with the database, and orchestrates the RAG pipeline.
-- **Final Output to User:** The generated response presented through the Streamlit UI.
+- **User:** The end-user interacting with the application.
+- **Streamlit UI (`app.py`):** The user interface built with Streamlit, handling user input and displaying output.
+- **User Query:** The input text provided by the user for bus ticket assistance.
+- **Query Embedding:** The user's query is converted into a numerical vector representation using an embedding model (`sentence-transformers`).
+- **FAISS Search:** A fast similarity search is performed on a vector index (built from provider texts) using FAISS to find the most relevant documents.
+- **Retrieve Documents:** The actual text content of the documents identified by FAISS is fetched.
+- **Augment Prompt:** The retrieved document content is combined with the original user query to create a richer prompt for the language model.
+- **Generation Model (e.g., `flan-t5-small`):** A language model that takes the augmented prompt and generates a coherent, contextually relevant response.
+- **Provider Texts (`data/provider_texts/`):** Raw text data containing information about bus providers, used to build the embedding index.
+- **Booking Data (`data/bookings.db`):** A SQLite database storing all booking-related information.
+- **Other Data (`data/data.json`):** Additional data files that may be used by the application logic.
+- **Embedding Model (`sentence-transformers`):** The model responsible for converting text into numerical embeddings.
+- **App Logic:** Orchestrates the entire process, managing data flow, interacting with the database, and coordinating the RAG pipeline.
+- **Final Output:** The generated response presented to the user through the Streamlit UI.
 
 ## Quick Start Guide for New Users
 
