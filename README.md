@@ -1,7 +1,7 @@
 DEMO VIDEO : https://drive.google.com/file/d/1sxJhhBbn6B_xzk3toaec1bktcgreH2at/view?usp=drive_link
 # Bus Ticket Assistant — Offline RAG Streamlit App
 
-This is a minimal **offline RAG** Streamlit app for a Bus Ticket Assistant.
+This is a minimal **RAG** Streamlit app for a Bus Ticket Assistant.
 It uses:
 - `sentence-transformers/all-MiniLM-L6-v2` for embeddings (free)
 - `google/flan-t5-small` for generation (free Hugging Face model)
