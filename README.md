@@ -1,5 +1,5 @@
 DEMO VIDEO : https://drive.google.com/file/d/1sxJhhBbn6B_xzk3toaec1bktcgreH2at/view?usp=drive_link
-# Bus Ticket Assistant — Offline RAG Streamlit App
+# Bus Ticket Assistant — RAG Streamlit App
 
 This is a minimal **RAG** Streamlit app for a Bus Ticket Assistant.
 It uses:
